@@ -1,13 +1,10 @@
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QValidator, QIntValidator
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setFixedSize(1134, 762)
+        MainWindow.resize(1134, 762)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -65,6 +62,7 @@ class Ui_MainWindow(object):
         validator_ampl = QIntValidator (0, 100)
         validator_freq = QIntValidator (0, 10000000)
         #
+        ##
         self.lineEditFreq = QtWidgets.QLineEdit(self.widget_2)
         self.lineEditFreq.setGeometry(QtCore.QRect(160, 80, 141, 22))
         self.lineEditFreq.setObjectName("lineEditFreq")
@@ -77,6 +75,7 @@ class Ui_MainWindow(object):
         self.lineEditOff.setGeometry(QtCore.QRect(160, 140, 141, 22))
         self.lineEditOff.setObjectName("lineEditOff")
         self.lineEditOff.setValidator(validator_off)
+        ##
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -207,7 +206,7 @@ class Ui_MainWindow(object):
         self.labelImage = QtWidgets.QLabel(self.centralwidget)
         self.labelImage.setGeometry(QtCore.QRect(450, 380, 671, 241))
         self.labelImage.setText("")
-        self.labelImage.setPixmap(QtGui.QPixmap("Bipolar_Iout_ss.png"))
+        self.labelImage.setPixmap(QtGui.QPixmap("CMOS_SS.png"))
         self.labelImage.setScaledContents(True)
         self.labelImage.setObjectName("labelImage")
         self.comboBoxSchemeType = QtWidgets.QComboBox(self.centralwidget)
@@ -231,6 +230,27 @@ class Ui_MainWindow(object):
         self.PlotLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.PlotLayout.setContentsMargins(0, 0, 0, 0)
         self.PlotLayout.setObjectName("PlotLayout")
+        self.widget = QtWidgets.QWidget(self.centralwidget)
+        self.widget.setGeometry(QtCore.QRect(10, 620, 431, 80))
+        self.widget.setObjectName("widget")
+        self.UnitTypeComboBox = QtWidgets.QComboBox(self.widget)
+        self.UnitTypeComboBox.setGeometry(QtCore.QRect(200, 10, 51, 21))
+        self.UnitTypeComboBox.setObjectName("UnitTypeComboBox")
+        self.UnitTypeComboBox.addItem("")
+        self.UnitTypeComboBox.addItem("")
+        self.UnitTypeComboBox.addItem("")
+        self.UnitTypeComboBox.addItem("")
+        self.label_12 = QtWidgets.QLabel(self.widget)
+        self.label_12.setGeometry(QtCore.QRect(10, 10, 101, 21))
+        self.label_12.setObjectName("label_12")
+        self.DivNoSpinBox = QtWidgets.QSpinBox(self.widget)
+        self.DivNoSpinBox.setGeometry(QtCore.QRect(120, 10, 71, 22))
+        self.DivNoSpinBox.setMinimum(1)
+        self.DivNoSpinBox.setMaximum(10)
+        self.DivNoSpinBox.setObjectName("DivNoSpinBox")
+        self.InfoPushButton = QtWidgets.QPushButton(self.widget)
+        self.InfoPushButton.setGeometry(QtCore.QRect(10, 40, 251, 28))
+        self.InfoPushButton.setObjectName("InfoPushButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1134, 26))
@@ -290,6 +310,22 @@ class Ui_MainWindow(object):
         self.comboBoxSchemeType.setItemText(1, _translate("MainWindow", "D/A Bipolar Ieșire în tensiune"))
         self.comboBoxSchemeType.setItemText(2, _translate("MainWindow", "D/A CMOS   Ieșire in tensiune"))
         self.label_29.setText(_translate("MainWindow", "Tipul schemei:"))
+        self.UnitTypeComboBox.setItemText(0, _translate("MainWindow", "s"))
+        self.UnitTypeComboBox.setItemText(1, _translate("MainWindow", "ms"))
+        self.UnitTypeComboBox.setItemText(2, _translate("MainWindow", "us"))
+        self.UnitTypeComboBox.setItemText(3, _translate("MainWindow", "ns"))
+        self.label_12.setText(_translate("MainWindow", "Numar diviziuni:"))
+        self.InfoPushButton.setText(_translate("MainWindow", "Informatii Semnal"))
         self.menuDocumenta_ie.setTitle(_translate("MainWindow", "Documentație"))
         self.action_ndrum_tor_laborator_EA.setText(_translate("MainWindow", "Îndrumător laborator EA"))
         self.actionPrezentare.setText(_translate("MainWindow", "Prezentare"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
