@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QMainWindow
 
 from Controller.MatplotlibCanvas import MplCanvas
 from Controller.InputSignal import InputSignal
-
+from Controller.DetailedSigButton import DetailedSigButton as dsb
 from View import view as ProjectView
 import numpy as np
 from scipy import signal
@@ -37,6 +37,8 @@ class Window(QMainWindow):
         self.ui.lineEditAmplt.editingFinished.connect(self.update_amplitude)
         self.ui.DivNoSpinBox.valueChanged.connect(self.spinbox_value_changed)
         self.ui.UnitTypeComboBox.currentTextChanged.connect(self.time_unit_changed)
+        self.ui.checkBox.stateChanged.connect(self.constant_signal_checkbox_event)
+        self.ui.InfoPushButton.pressed.connect(self.info_button_pressed)
 
     def init_plot(self):
         self.sc.axes.grid(color='red', linestyle='--', linewidth=0.5)
@@ -85,14 +87,16 @@ class Window(QMainWindow):
         x = self.ui.comboBoxSigType.currentIndex()
         self.clear_graph()
         self.arrange_axis()
-        print(x)
         # sinus
-        if x == 0:
-            self.plot_rectangular()
-        elif x == 1:
-            self.plot_sinus()
-        elif x == 2:
-            self.plot_triangular()
+        if self.ui.checkBox.isChecked():
+            self.plot_constant_signal()
+        else:
+            if x == 0:
+                self.plot_rectangular()
+            elif x == 1:
+                self.plot_sinus()
+            else:
+                self.plot_triangular()
 
     def update_offset(self):
         self.ref_signal_data.offset = int(self.ui.lineEditOff.displayText())
@@ -127,7 +131,7 @@ class Window(QMainWindow):
         if x == 0:
             self.div_cf_val = 1
         elif x == 1:
-            self.div_cf_val = 0.01
+            self.div_cf_val = 0.001
         elif x == 2:
             self.div_cf_val = 0.000001
         else:
@@ -137,3 +141,27 @@ class Window(QMainWindow):
 
     def change_dt(self):
         self.graph_dt = self.div_cf_val / 10000
+
+    def plot_constant_signal(self):
+        self.sc.axes.hlines(self.ref_signal_data.amplitude, xmax=self.div_val, xmin=0)
+        self.sc.axes.plot()
+        self.sc.figure.canvas.draw()
+
+    def constant_signal_checkbox_event(self):
+        if self.ui.checkBox.isChecked():
+            self.ui.lineEditFreq.setDisabled(True)
+            self.ui.lineEditOff.setDisabled(True)
+            self.ui.comboBoxSigType.setDisabled(True)
+            self.ui.label_3.setText("Valoare CC:")
+        else:
+            self.ui.lineEditFreq.setDisabled(False)
+            self.ui.lineEditOff.setDisabled(False)
+            self.ui.comboBoxSigType.setDisabled(False)
+            self.ui.label_3.setText("Amplitudine")
+        self.wave_changed()
+
+    def info_button_pressed(self):
+        message_button = dsb()
+
+
+
