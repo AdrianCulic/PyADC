@@ -2,7 +2,7 @@ class InputSignal:
 
     def __init__(self):
         self.offset = 0
-        self.frequency = 60
+        self.frequency = 10
         self.amplitude = 5
 
     def get_signal_data(self):
